@@ -33,7 +33,6 @@ exports.addNewUser = (req, res, next) => {
         .then(result => {
           res.json({ msg: "success" });
           console.log("created user");
-          console.log(result);
         });
     })
     .catch(err => {
@@ -56,6 +55,8 @@ exports.logIn = (req, res, next) => {
       bcrypt.compare(password, user.password).then(result => {
         res.json({ msg: "Login Successful" });
       });
+      req.user = user;
+      console.log(req.user);
     })
     .catch(err => {
       console.log(err);

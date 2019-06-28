@@ -17,11 +17,14 @@ exports.addPost = (req, res, next) => {
   const title = req.body.title;
   const body = req.body.body;
   const username = req.body.username;
+  const imageUrl = req.body.imageUrl;
 
   Post.create({
     username: username,
     title: title,
-    body: body
+    body: body,
+    imageUrl: imageUrl
+    // userId: req.user._id
   })
     .then(result => {
       res.json({ msg: "success" });
