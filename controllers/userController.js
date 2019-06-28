@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.addNewUser = (req, res, next) => {
   const name = req.body.name;
@@ -31,8 +32,12 @@ exports.addNewUser = (req, res, next) => {
           });
         })
         .then(result => {
+          // res.redirect(200, "http://localhost:3000/login");
           res.json({ msg: "success" });
           console.log("created user");
+        })
+        .catch(err => {
+          console.log(err);
         });
     })
     .catch(err => {
@@ -55,8 +60,17 @@ exports.logIn = (req, res, next) => {
       bcrypt.compare(password, user.password).then(result => {
         res.json({ msg: "Login Successful" });
       });
-      req.user = user;
-      console.log(req.user);
+      const token = jwt.sign(
+        {
+          username: user.username,
+          userId: user._id.toString()
+        },
+        "lMUZxRmYp0K3dU7GRM3PKJXAFAtDgZlO",
+        { expiresIn: "24h" }
+      );
+      // res.redirect("http://localhost:3000/");
+      res.status(200).json({ token: token, userId: user._id.toString() });
+      console.log(res);
     })
     .catch(err => {
       console.log(err);

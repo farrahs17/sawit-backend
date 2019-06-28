@@ -9,6 +9,15 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Methods",
+//     "OPTIONS, GET, PUT, POST, PATCH, DELETE"
+//   );
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
 app.use("/", routes);
 
 mongoose
@@ -16,18 +25,6 @@ mongoose
     "mongodb+srv://farrah:fireit@cluster0-ptixe.mongodb.net/test?retryWrites=true&w=majority"
   )
   .then(result => {
-    // User.findOne().then(user => {
-    //     if (!user) {
-    //         const user = new User({
-    //             name: 'Max',
-    //             email: 'max@test.com',
-    //             cart: {
-    //                 items: []
-    //             }
-    //         });
-    //         user.save();
-    //     }
-    // });
     console.log("Database connected!");
     app.listen(5000);
   })
