@@ -57,9 +57,12 @@ exports.logIn = (req, res, next) => {
       if (!user) {
         return res.json({ msg: "User not found" });
       }
-      bcrypt.compare(password, user.password).then(result => {
-        res.json({ msg: "Login Successful" });
-      });
+      bcrypt
+        .compare(password, user.password)
+        .then(result => {
+          res.json({ msg: "Login Successful" });
+        })
+        .catch(err => console.log(err));
       const token = jwt.sign(
         {
           username: user.username,
@@ -74,6 +77,8 @@ exports.logIn = (req, res, next) => {
     })
     .catch(err => {
       console.log(err);
-      res.json({ msg: "Login failed check credentials and try again" });
+      res
+        .status(401)
+        .json({ msg: "Login failed check credentials and try again" });
     });
 };

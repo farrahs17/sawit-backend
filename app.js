@@ -6,18 +6,22 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "OPTIONS, GET, PUT, POST, PATCH, DELETE"
-//   );
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   next();
-// });
+// app.use(
+//   cors({
+//     allowedHeaders: ["Content-Type", "Authorization"]
+//   })
+// );
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "OPTIONS, GET, PUT, POST, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  next();
+});
 app.use("/", routes);
 
 mongoose

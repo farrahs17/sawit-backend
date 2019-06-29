@@ -3,15 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-  username: {
-    type: String,
-    required: true
-  },
   title: {
     type: String,
     required: true
   },
-  body: {
+  text: {
     type: String,
     required: true
   },
@@ -29,7 +25,30 @@ const postSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User"
-  }
+  },
+  username: {
+    type: Schema.Types.String,
+    ref: "User"
+  },
+  comments: [
+    {
+      text: {
+        type: String,
+        ref: "Comment",
+        required: true
+      },
+      commentId: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: "Comment"
+      },
+      username: {
+        type: Schema.Types.String,
+        required: true,
+        ref: "User"
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model("Post", postSchema);
